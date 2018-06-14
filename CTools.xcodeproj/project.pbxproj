@@ -1,0 +1,150 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXFileReference section */
+		FB5C2DD820C181E70008BCEE /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		FB5C2DDA20C181E70008BCEE /* makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = makefile; sourceTree = "<group>"; };
+		FB6B09A120D258A200B74336 /* ping.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ping.c; sourceTree = "<group>"; };
+		FB6B09A220D258A200B74336 /* ping.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ping.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		FB5C2DD120C181E70008BCEE = {
+			isa = PBXGroup;
+			children = (
+				FB6B09A020D258A200B74336 /* Ping */,
+				FB5C2DD820C181E70008BCEE /* main.c */,
+				FB5C2DDA20C181E70008BCEE /* makefile */,
+			);
+			sourceTree = "<group>";
+		};
+		FB6B09A020D258A200B74336 /* Ping */ = {
+			isa = PBXGroup;
+			children = (
+				FB6B09A120D258A200B74336 /* ping.c */,
+				FB6B09A220D258A200B74336 /* ping.h */,
+			);
+			path = Ping;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		FB5C2DD620C181E70008BCEE /* CTools */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = FB5C2DDF20C181E70008BCEE /* Build configuration list for PBXLegacyTarget "CTools" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "/Users/gaole/workSpace/desay-2/welink_base_release/Project/Ping";
+			dependencies = (
+			);
+			name = CTools;
+			passBuildSettingsInEnvironment = 1;
+			productName = Ping;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		FB5C2DD220C181E70008BCEE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+			};
+			buildConfigurationList = FB5C2DD520C181E70008BCEE /* Build configuration list for PBXProject "CTools" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FB5C2DD120C181E70008BCEE;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FB5C2DD620C181E70008BCEE /* CTools */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		FB5C2DD320C181E70008BCEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		FB5C2DD420C181E70008BCEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		FB5C2DE020C181E70008BCEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = CTools;
+			};
+			name = Debug;
+		};
+		FB5C2DE120C181E70008BCEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = CTools;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FB5C2DD520C181E70008BCEE /* Build configuration list for PBXProject "CTools" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB5C2DD320C181E70008BCEE /* Debug */,
+				FB5C2DD420C181E70008BCEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FB5C2DDF20C181E70008BCEE /* Build configuration list for PBXLegacyTarget "CTools" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB5C2DE020C181E70008BCEE /* Debug */,
+				FB5C2DE120C181E70008BCEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FB5C2DD220C181E70008BCEE /* Project object */;
+}
