@@ -11,12 +11,15 @@
 		FB5C2DDA20C181E70008BCEE /* makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = makefile; sourceTree = "<group>"; };
 		FB6B09A120D258A200B74336 /* ping.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ping.c; sourceTree = "<group>"; };
 		FB6B09A220D258A200B74336 /* ping.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ping.h; sourceTree = "<group>"; };
+		FB6B09A420D25A8000B74336 /* CharToLongLong.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = CharToLongLong.c; sourceTree = "<group>"; };
+		FB6B09A520D25A8000B74336 /* CharToLongLong.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CharToLongLong.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		FB5C2DD120C181E70008BCEE = {
 			isa = PBXGroup;
 			children = (
+				FB6B09A320D25A8000B74336 /* CharToLongLong */,
 				FB6B09A020D258A200B74336 /* Ping */,
 				FB5C2DD820C181E70008BCEE /* main.c */,
 				FB5C2DDA20C181E70008BCEE /* makefile */,
@@ -30,6 +33,15 @@
 				FB6B09A220D258A200B74336 /* ping.h */,
 			);
 			path = Ping;
+			sourceTree = "<group>";
+		};
+		FB6B09A320D25A8000B74336 /* CharToLongLong */ = {
+			isa = PBXGroup;
+			children = (
+				FB6B09A420D25A8000B74336 /* CharToLongLong.c */,
+				FB6B09A520D25A8000B74336 /* CharToLongLong.h */,
+			);
+			path = CharToLongLong;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
