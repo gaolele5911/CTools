@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CS播放器DEMO多个</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            position: relative;
+        }
+        .btn{
+            color: #fff;
+            background-color: #409eff;
+            border-color: #409eff;
+            display: inline-block;
+            cursor: pointer;
+            text-align: center;
+            box-sizing: border-box;
+            font-weight: 500;
+            padding: 12px 20px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: none;
+        }
+
+        .header{
+            margin: 15px 0;
+        }
+        .mrt15{
+            margin-right: 15px;
+            margin-top: 15px;
+        }
+        .leftBox{
+            width: 30%;
+            height: 100vh;
+            float: left;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .rightBox{
+            width: 70%;
+            height: 100vh;
+            float: left;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .csvideo{
+            width: 98%;
+            height: 400px;
+            float: left;
+        }
+        .buttonBox{
+            width: 100%;
+            height: 400px;
+            float: left;
+            overflow-y: auto;
+        }
+        .blue{
+            background-color: #b5cbdc;
+        }
+        .orange{
+            background-color: #bacbff;
+        }
+        .green{
+            background-color: #e0cfff;
+        }
+        .red{
+            background-color: #9ae2ff;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="leftBox">
+        <h3 class="header">播放器</h3>
+        <div id="csVideo1" class="csvideo mrt15 blue"></div>
+        <div id="csVideo2" class="csvideo mrt15 orange"></div>
+        <div id="csVideo3" class="csvideo mrt15 green"></div>
+        <div id="csVideo4" class="csvideo mrt15 red"></div>
+    </div>
+    <div class="rightBox">
+        <h3 class="header">事件</h3>
+        <div class="buttonBox blue mrt15">
+            <button id="login_svr_1" class="btn mrt15">登录调度1</button>
+            <button id="logout_svr_1" class="btn mrt15">注销调度1</button>
+            <button id="show_1" class="btn mrt15">显示窗口1</button>
+            <button id="hide_1" class="btn mrt15">隐藏窗口1</button>
+            <button id="layout_mode_1" class="btn mrt15">设置布局类型1</button>
+            <button id="set_layout_1" class="btn mrt15">设置布局1</button>
+            <button id="play_real_1" class="btn mrt15">指定窗口播放1</button>
+            <button id="videoCycle_1" class="btn mrt15">实时视频9路轮询播放1</button>
+            <button id="videoCycle_stop_1" class="btn mrt15">停止实时视频9路轮询播放1</button>
+            <button id="stop_real_1" class="btn mrt15">停止指定窗体播放1</button>
+            <button id="ptz_ctrl_start_1" class="btn mrt15">开启云台控制1</button>
+            <button id="ptz_ctrl_stop_1" class="btn mrt15">停止云台控制1</button>
+            <button id="camera_lens_1" class="btn mrt15">镜头控制1</button>
+            <button id="snap_cur_wnd_1" class="btn mrt15">当前窗体抓拍1</button>
+            <button id="keep_snap_1" class="btn mrt15">连续抓拍1</button>
+            <button id="record_1" class="btn mrt15">启动当前窗体录像1</button>
+            <button id="stop_record_1" class="btn mrt15">停止当前窗体录像1</button>
+            <button id="play_his_1" class="btn mrt15">播放指定时间段内的历史码流1</button>
+            <button id="stop_his_1" class="btn mrt15">停止历史码流播放1</button>
+            <button id="pause_his_1" class="btn mrt15">暂停历史码流播放1</button>
+            <button id="continue_his_1" class="btn mrt15">暂停后继续播放历史码流播放1</button>
+            <!--<button id="get_his_info_1" class="btn mrt15">获取历史码流播放信息1</button>-->
+            <button id="set_his_play_pos_1" class="btn mrt15">设置历史码流播放位置1</button>
+            <button id="his_download_1" class="btn mrt15">下载指定时间段内的视频1</button>
+            <button id="get_his_download_pos_1" class="btn mrt15">获取下载位置1</button>
+            <!--<button id="stop_his_download_1" class="btn mrt15">停止录像下载1</button>-->
+            <!--<button id="slow_play_1" class="btn mrt15">慢放1</button>-->
+            <!--<button id="fast_play_1" class="btn mrt15">快放1</button>-->
+            <button id="fullscreen_1" class="btn mrt15">全屏1</button>
+            <button id="normal_play_1" class="btn mrt15">恢复正常速率播放1</button>
+            <button id="his_play_pop_time_select_1" class="btn mrt15">播放指定时间段内的历史码流扩展接口，弹出时间选择框1</button>
+            <!--<button id="get_cur_wnd_index_1" class="btn mrt15">获取当前窗体1</button>-->
+            <button id="set_record_download_path_1" class="btn mrt15">设置录像/下载存储位置1</button>
+            <button id="set_snap_path_1" class="btn mrt15">设置抓拍位置1</button>
+            <!--<button id="get_snap_path_1" class="btn mrt15">获取抓拍位置1</button>-->
+            <!--<button id="get_record_download_path_1" class="btn mrt15">获取录像下载路径1</button>-->
+            <button id="stop_all_1" class="btn mrt15">关闭所有窗体码流播放1</button>
+            <button id="get_cur_video_info_1" class="btn mrt15">获取窗口是否播放视频和播放是历史还是实时 + 摄像头ID1</button>
+            <button id="get_layout_1" class="btn mrt15">获取布局1</button>
+            <button id="get_his_play_time_1" class="btn mrt15">获取指定窗口的历史视频播放时间1</button>
+            <button id="get_snap_pic_base64_1" class="btn mrt15">获取上一张抓拍图片base64码流1</button>
+            <button id="get_version_1" class="btn mrt15">获取插件版本信息1</button>
+            <button id="get_last_snap_path_1" class="btn mrt15">获取上一张抓拍图片的路径1</button>
+            <button id="get_last_snap_file_size_1" class="btn mrt15">获取上一张抓拍图片的大小1</button>
+            <button id="get_record_list_1" class="btn mrt15">获取指定时间段内的录像文件列表1</button>
+            <button id="set_target_pic_1" class="btn mrt15">视频追踪中设置追踪目标图片，并设置目标窗口是否显示1</button>
+            <button id="set_enable_redraw_1" class="btn mrt15">ocx可否重绘画面（网页滚动条滚动时停止刷新）1</button>
+            <button id="switch_wnd_1" class="btn mrt15">交换窗口1</button>
+            <button id="get_download_path_1" class="btn mrt15">获取下载路径1</button>
+            <button id="show_snap_pannel_1" class="btn mrt15">显示/隐藏抓拍面板1</button>
+        </div>
+        <div class="buttonBox orange mrt15">
+            <button id="login_svr_2" class="btn mrt15 ">登录调度2</button>
+            <button id="logout_svr_2" class="btn mrt15">注销调度2</button>
+            <button id="show_2" class="btn mrt15">显示窗口2</button>
+            <button id="hide_2" class="btn mrt15">隐藏窗口2</button>
+            <button id="layout_mode_2" class="btn mrt15">设置布局类型2</button>
+            <button id="set_layout_2" class="btn mrt15">设置布局2</button>
+            <button id="play_real_2" class="btn mrt15">指定窗口播放2</button>
+            <button id="videoCycle_2" class="btn mrt15">实时视频9路轮询播放2</button>
+            <button id="videoCycle_stop_2" class="btn mrt15">停止实时视频9路轮询播放2</button>
+            <button id="stop_real_2" class="btn mrt15">停止指定窗体播放2</button>
+            <button id="ptz_ctrl_start_2" class="btn mrt15">开启云台控制2</button>
+            <button id="ptz_ctrl_stop_2" class="btn mrt15">停止云台控制2</button>
+            <button id="camera_lens_2" class="btn mrt15">镜头控制2</button>
+            <button id="snap_cur_wnd_2" class="btn mrt15">当前窗体抓拍2</button>
+            <button id="keep_snap_2" class="btn mrt15">连续抓拍2</button>
+            <button id="record_2" class="btn mrt15">启动当前窗体录像2</button>
+            <button id="stop_record_2" class="btn mrt15">停止当前窗体录像2</button>
+            <button id="play_his_2" class="btn mrt15">播放指定时间段内的历史码流2</button>
+            <button id="stop_his_2" class="btn mrt15">停止历史码流播放2</button>
+            <button id="pause_his_2" class="btn mrt15">暂停历史码流播放2</button>
+            <button id="continue_his_2" class="btn mrt15">暂停后继续播放历史码流播放2</button>
+            <!--<button id="get_his_info_2" class="btn mrt15">获取历史码流播放信息2</button>-->
+            <button id="set_his_play_pos_2" class="btn mrt15">设置历史码流播放位置2</button>
+            <button id="his_download_2" class="btn mrt15">下载指定时间段内的视频2</button>
+            <button id="get_his_download_pos_2" class="btn mrt15">获取下载位置2</button>
+            <!--<button id="stop_his_download_2" class="btn mrt15">停止录像下载2</button>-->
+            <!--<button id="slow_play_2" class="btn mrt15">慢放2</button>-->
+            <!--<button id="fast_play_2" class="btn mrt15">快放2</button>-->
+            <button id="fullscreen_2" class="btn mrt15">全屏2</button>
+            <button id="normal_play_2" class="btn mrt15">恢复正常速率播放2</button>
+            <button id="his_play_pop_time_select_2" class="btn mrt15">播放指定时间段内的历史码流扩展接口，弹出时间选择框2</button>
+            <!--<button id="get_cur_wnd_index_2" class="btn mrt15">获取当前窗体2</button>-->
+            <button id="set_record_download_path_2" class="btn mrt15">设置录像/下载存储位置2</button>
+            <button id="set_snap_path_2" class="btn mrt15">设置抓拍位置2</button>
+            <!--<button id="get_snap_path_2" class="btn mrt15">获取抓拍位置2</button>-->
+            <!--<button id="get_record_download_path_2" class="btn mrt15">获取录像下载路径2</button>-->
+            <button id="stop_all_2" class="btn mrt15">关闭所有窗体码流播放2</button>
+            <button id="get_cur_video_info_2" class="btn mrt15">获取窗口是否播放视频和播放是历史还是实时 + 摄像头ID2</button>
+            <button id="get_layout_2" class="btn mrt15">获取布局2</button>
+            <button id="get_his_play_time_2" class="btn mrt15">获取指定窗口的历史视频播放时间2</button>
+            <button id="get_snap_pic_base64_2" class="btn mrt15">获取上一张抓拍图片base64码流2</button>
+            <button id="get_version_2" class="btn mrt15">获取插件版本信息2</button>
+            <button id="get_last_snap_path_2" class="btn mrt15">获取上一张抓拍图片的路径2</button>
+            <button id="get_last_snap_file_size_2" class="btn mrt15">获取上一张抓拍图片的大小2</button>
+            <button id="get_record_list_2" class="btn mrt15">获取指定时间段内的录像文件列表2</button>
+            <button id="set_target_pic_2" class="btn mrt15">视频追踪中设置追踪目标图片，并设置目标窗口是否显示2</button>
+            <button id="set_enable_redraw_2" class="btn mrt15">ocx可否重绘画面（网页滚动条滚动时停止刷新）2</button>
+            <button id="switch_wnd_2" class="btn mrt15">交换窗口2</button>
+            <button id="get_download_path_2" class="btn mrt15">获取下载路径2</button>
+            <button id="show_snap_pannel_2" class="btn mrt15">显示/隐藏抓拍面板2</button>
+        </div>
+        <div class="buttonBox green mrt15">
+            <button id="login_svr_3" class="btn mrt15">登录调度3</button>
+            <button id="logout_svr_3" class="btn mrt15">注销调度3</button>
+            <button id="show_3" class="btn mrt15">显示窗口3</button>
+            <button id="hide_3" class="btn mrt15">隐藏窗口3</button>
+            <button id="layout_mode_3" class="btn mrt15">设置布局类型3</button>
+            <button id="set_layout_3" class="btn mrt15">设置布局3</button>
+            <button id="play_real_3" class="btn mrt15">指定窗口播放3</button>
+            <button id="videoCycle_3" class="btn mrt15">实时视频9路轮询播放3</button>
+            <button id="videoCycle_stop_3" class="btn mrt15">停止实时视频9路轮询播放3</button>
+            <button id="stop_real_3" class="btn mrt15">停止指定窗体播放3</button>
+            <button id="ptz_ctrl_start_3" class="btn mrt15">开启云台控制3</button>
+            <button id="ptz_ctrl_stop_3" class="btn mrt15">停止云台控制3</button>
+            <button id="camera_lens_3" class="btn mrt15">镜头控制3</button>
+            <button id="snap_cur_wnd_3" class="btn mrt15">当前窗体抓拍3</button>
+            <button id="keep_snap_3" class="btn mrt15">连续抓拍3</button>
+            <button id="record_3" class="btn mrt15">启动当前窗体录像3</button>
+            <button id="stop_record_3" class="btn mrt15">停止当前窗体录像3</button>
+            <button id="play_his_3" class="btn mrt15">播放指定时间段内的历史码流3</button>
+            <button id="stop_his_3" class="btn mrt15">停止历史码流播放3</button>
+            <button id="pause_his_3" class="btn mrt15">暂停历史码流播放3</button>
+            <button id="continue_his_3" class="btn mrt15">暂停后继续播放历史码流播放3</button>
+            <!--<button id="get_his_info_3" class="btn mrt15">获取历史码流播放信息3</button>-->
+            <button id="set_his_play_pos_3" class="btn mrt15">设置历史码流播放位置3</button>
+            <button id="his_download_3" class="btn mrt15">下载指定时间段内的视频3</button>
+            <button id="get_his_download_pos_3" class="btn mrt15">获取下载位置3</button>
+            <!--<button id="stop_his_download_3" class="btn mrt15">停止录像下载3</button>-->
+            <!--<button id="slow_play_3" class="btn mrt15">慢放3</button>-->
+            <!--<button id="fast_play_3" class="btn mrt15">快放3</button>-->
+            <button id="fullscreen_3" class="btn mrt15">全屏3</button>
+            <button id="normal_play_3" class="btn mrt15">恢复正常速率播放3</button>
+            <button id="his_play_pop_time_select_3" class="btn mrt15">播放指定时间段内的历史码流扩展接口，弹出时间选择框3</button>
+            <!--<button id="get_cur_wnd_index_3" class="btn mrt15">获取当前窗体3</button>-->
+            <button id="set_record_download_path_3" class="btn mrt15">设置录像/下载存储位置3</button>
+            <button id="set_snap_path_3" class="btn mrt15">设置抓拍位置3</button>
+            <!--<button id="get_snap_path_3" class="btn mrt15">获取抓拍位置3</button>-->
+            <!--<button id="get_record_download_path_3" class="btn mrt15">获取录像下载路径3</button>-->
+            <button id="stop_all_3" class="btn mrt15">关闭所有窗体码流播放3</button>
+            <button id="get_cur_video_info_3" class="btn mrt15">获取窗口是否播放视频和播放是历史还是实时 + 摄像头ID3</button>
+            <button id="get_layout_3" class="btn mrt15">获取布局3</button>
+            <button id="get_his_play_time_3" class="btn mrt15">获取指定窗口的历史视频播放时间3</button>
+            <button id="get_snap_pic_base64_3" class="btn mrt15">获取上一张抓拍图片base64码流3</button>
+            <button id="get_version_3" class="btn mrt15">获取插件版本信息3</button>
+            <button id="get_last_snap_path_3" class="btn mrt15">获取上一张抓拍图片的路径3</button>
+            <button id="get_last_snap_file_size_3" class="btn mrt15">获取上一张抓拍图片的大小3</button>
+            <button id="get_record_list_3" class="btn mrt15">获取指定时间段内的录像文件列表3</button>
+            <button id="set_target_pic_3" class="btn mrt15">视频追踪中设置追踪目标图片，并设置目标窗口是否显示3</button>
+            <button id="set_enable_redraw_3" class="btn mrt15">ocx可否重绘画面（网页滚动条滚动时停止刷新）3</button>
+            <button id="switch_wnd_3" class="btn mrt15">交换窗口3</button>
+            <button id="get_download_path_3" class="btn mrt15">获取下载路径3</button>
+            <button id="show_snap_pannel_3" class="btn mrt15">显示/隐藏抓拍面板3</button>
+        </div>
+        <div class="buttonBox red mrt15">
+            <button id="login_svr_4" class="btn mrt15">登录调度4</button>
+            <button id="logout_svr_4" class="btn mrt15">注销调度4</button>
+            <button id="show_4" class="btn mrt15">显示窗口4</button>
+            <button id="hide_4" class="btn mrt15">隐藏窗口4</button>
+            <button id="layout_mode_4" class="btn mrt15">设置布局类型4</button>
+            <button id="set_layout_4" class="btn mrt15">设置布局4</button>
+            <button id="play_real_4" class="btn mrt15">指定窗口播放4</button>
+            <button id="videoCycle_4" class="btn mrt15">实时视频9路轮询播放4</button>
+            <button id="videoCycle_stop_4" class="btn mrt15">停止实时视频9路轮询播放4</button>
+            <button id="stop_real_4" class="btn mrt15">停止指定窗体播放4</button>
+            <button id="ptz_ctrl_start_4" class="btn mrt15">开启云台控制4</button>
+            <button id="ptz_ctrl_stop_4" class="btn mrt15">停止云台控制4</button>
+            <button id="camera_lens_4" class="btn mrt15">镜头控制4</button>
+            <button id="snap_cur_wnd_4" class="btn mrt15">当前窗体抓拍4</button>
+            <button id="keep_snap_4" class="btn mrt15">连续抓拍4</button>
+            <button id="record_4" class="btn mrt15">启动当前窗体录像4</button>
+            <button id="stop_record_4" class="btn mrt15">停止当前窗体录像4</button>
+            <button id="play_his_4" class="btn mrt15">播放指定时间段内的历史码流4</button>
+            <button id="stop_his_4" class="btn mrt15">停止历史码流播放4</button>
+            <button id="pause_his_4" class="btn mrt15">暂停历史码流播放4</button>
+            <button id="continue_his_4" class="btn mrt15">暂停后继续播放历史码流播放4</button>
+            <!--<button id="get_his_info_4" class="btn mrt15">获取历史码流播放信息4</button>-->
+            <button id="set_his_play_pos_4" class="btn mrt15">设置历史码流播放位置4</button>
+            <button id="his_download_4" class="btn mrt15">下载指定时间段内的视频4</button>
+            <button id="get_his_download_pos_4" class="btn mrt15">获取下载位置4</button>
+            <!--<button id="stop_his_download_4" class="btn mrt15">停止录像下载4</button>-->
+            <!--<button id="slow_play_4" class="btn mrt15">慢放4</button>-->
+            <!--<button id="fast_play_4" class="btn mrt15">快放4</button>-->
+            <button id="fullscreen_4" class="btn mrt15">全屏4</button>
+            <button id="normal_play_4" class="btn mrt15">恢复正常速率播放4</button>
+            <button id="his_play_pop_time_select_4" class="btn mrt15">播放指定时间段内的历史码流扩展接口，弹出时间选择框4</button>
+            <!--<button id="get_cur_wnd_index_4" class="btn mrt15">获取当前窗体4</button>-->
+            <button id="set_record_download_path_4" class="btn mrt15">设置录像/下载存储位置4</button>
+            <button id="set_snap_path_4" class="btn mrt15">设置抓拍位置4</button>
+            <!--<button id="get_snap_path_4" class="btn mrt15">获取抓拍位置4</button>-->
+            <!--<button id="get_record_download_path_4" class="btn mrt15">获取录像下载路径4</button>-->
+            <button id="stop_all_4" class="btn mrt15">关闭所有窗体码流播放4</button>
+            <button id="get_cur_video_info_4" class="btn mrt15">获取窗口是否播放视频和播放是历史还是实时 + 摄像头ID4</button>
+            <button id="get_layout_4" class="btn mrt15">获取布局4</button>
+            <button id="get_his_play_time_4" class="btn mrt15">获取指定窗口的历史视频播放时间4</button>
+            <button id="get_snap_pic_base64_4" class="btn mrt15">获取上一张抓拍图片base64码流4</button>
+            <button id="get_version_4" class="btn mrt15">获取插件版本信息4</button>
+            <button id="get_last_snap_path_4" class="btn mrt15">获取上一张抓拍图片的路径4</button>
+            <button id="get_last_snap_file_size_4" class="btn mrt15">获取上一张抓拍图片的大小4</button>
+            <button id="get_record_list_4" class="btn mrt15">获取指定时间段内的录像文件列表4</button>
+            <button id="set_target_pic_4" class="btn mrt15">视频追踪中设置追踪目标图片，并设置目标窗口是否显示4</button>
+            <button id="set_enable_redraw_4" class="btn mrt15">ocx可否重绘画面（网页滚动条滚动时停止刷新）4</button>
+            <button id="switch_wnd_4" class="btn mrt15">交换窗口4</button>
+            <button id="get_download_path_4" class="btn mrt15">获取下载路径4</button>
+            <button id="show_snap_pannel_4" class="btn mrt15">显示/隐藏抓拍面板4</button>
+        </div>
+
+    </div>
+</div>
+<div id="dialog"  class="dialog"></div>
+<div id="cutting"  class="cutting" ></div>
+
+<script src="./dist/eventBus.js"></script>
+<script src="./dist/webPlugin.js"></script>
+<script>
+    window.onload= function(){
+        let ip = '172.20.32.150'
+        let isLoginOption = {
+            isLogin:false,
+            userName:'SUPPER_NONEED_USER',
+            groupName:'',
+            ip:ip
+        }
+        let windowCount = 4
+        let count = 0
+        let delayTime = 0 //初始化间隔时间，单位毫秒
+        let videoList = ['1000000191','1000000192','1000000193','1000000194','1000000195','1000000196','1000000197','1000000198','1000000199','1000000200','34020000001320000109','34020000001320000110'] //轮询播放的设备id
+        let cycleTime = 30 //轮询时间,单位s
+        const video =  new CSVideo(isLoginOption)
+        let option1 = {
+            id:'csVideo1',
+            isMuiltWindow:true,
+            isSingleLayout:1 //是否是单窗口ocx 0//不是 1是
+        }
+        let option2 = {
+            id:'csVideo2',
+            isMuiltWindow:true,
+            isSingleLayout:1 //是否是单窗口ocx 0//不是 1是
+        }
+        let option3 = {
+            id:'csVideo3',
+            isMuiltWindow:true,
+            isSingleLayout:1 //是否是单窗口ocx 0//不是 1是
+        }
+        let option4 = {
+            id:'csVideo4',
+            isMuiltWindow:true,
+            isSingleLayout:1 //是否是单窗口ocx 0//不是 1是
+        }
+        let downloadId = ''
+        // ==========初始化开始===============
+        // video.MS_WakeUp('MtiWatchService://')//exe
+        let csWindow1 = video.MS_Init()
+        let csWindow2 = video.MS_Init()
+        let csWindow3 = video.MS_Init()
+        let csWindow4 = video.MS_Init()
+        // ==========初始化结束===============
+        function initVideo(option,windowName,i){
+            // 1.创建窗口
+            windowName.MS_InitWindow(option,function (res) {
+                    // 2.开始业务
+                    // 显示窗口
+                    document.querySelector('#show_'+ i).onclick = function(){
+                        windowName.MS_ShowWnd()
+                    }
+                    // 隐藏窗口
+                    document.querySelector('#hide_'+ i).onclick = function(){
+                        windowName.MS_HideWnd()
+                    }
+                    if(!isLoginOption.isLogin){
+                        // 登录调度
+                        document.querySelector('#login_svr_'+ i).onclick= function(){
+                            windowName.MS_StartClient({userName:isLoginOption.userName,groupName:isLoginOption.groupName,ip:isLoginOption.ip},function (res) {
+                                if(res.err_code == 0) {
+                                    console.log('窗口'+i +'调度注册成功')
+                                    //注销调度
+                                    document.querySelector('#logout_svr_'+ i).onclick = function(){
+                                        windowName.MS_StopClient()
+                                    }
+
+                                    document.querySelector('#layout_mode_'+ i).onclick = function(){
+                                        windowName.MS_SetLayoutMode({layout:2},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#set_layout_'+ i).onclick = function(){
+                                        windowName.MS_SetCurrentLayout({layout:2},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#play_real_'+ i).onclick = function(){
+                                        windowName.MS_SetCameraToWindow({cameraId:'rtsp://172.20.32.94:554/live/rtsp_push',index:0},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    let cycleTimer = ''
+                                    document.querySelector('#videoCycle_'+ i).onclick = function(){
+                                        let list = videoList.slice(0,9)
+                                        function playMuiltVideo(){
+                                            list.forEach((item,index)=>{
+                                                windowName.MS_SetCameraToWindow({cameraId:item,index:index},function (data) {
+                                                    console.log(data,'收到的回复');
+                                                })
+                                            })
+                                        }
+                                        playMuiltVideo()
+                                        cycleTimer = setInterval(function () {
+                                            playMuiltVideo()
+                                        },cycleTime * 1000)
+                                    }
+                                    document.querySelector('#videoCycle_stop_'+ i).onclick = function(){
+                                        clearInterval(cycleTimer)
+                                        windowName.MS_DisConnectAllCamera(null,function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#stop_real_'+ i).onclick = function(){
+                                        windowName.MS_StopCurrentVideo({index:0},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#ptz_ctrl_start_'+ i).onclick = function(){
+                                        windowName.MS_CtrlCameraPTZ({speed:3,orient:1}),function (data) {
+                                            console.log(data,'收到的回复');
+                                        }
+                                    }
+                                    document.querySelector('#ptz_ctrl_stop_'+ i).onclick = function(){
+                                        windowName.MS_CtrlCameraPTZ({speed:3,orient:0}),function (data) {
+                                            console.log(data,'收到的回复');
+                                        }
+                                    }
+                                    document.querySelector('#camera_lens_'+ i).onclick = function(){
+                                        windowName.MS_CtrlCameraLens({speed:3,index:0,lensCtrlType:1},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#snap_cur_wnd_'+ i).onclick = function(){
+                                        windowName.MS_SnapPicOfCurrentWnd({type:0,infoType:"1",description:'测试'},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#keep_snap_'+ i).onclick = function(){
+                                        windowName.MS_SnapPictures({type:0,index:0,infoType:"1",description:'测试'},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#record_'+ i).onclick = function(){
+                                        windowName.MS_StartLocalRecordofCurrentWnd({filePath:'E:\\'},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#stop_record_'+ i).onclick = function(){
+                                        windowName.MS_StopLocalRecordofCurentWnd({filePath:'E:\\'},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#play_his_'+ i).onclick = function(){
+                                        windowName.MS_PlayBackbyTime({cameraId:'34020000001320000109',startTime:'2020-09-08 16:00:00',endTime:'2020-09-08 16:20:00',index:0},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#stop_his_'+ i).onclick = function(){
+                                        windowName.MS_StopPlayBack({index:0},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#pause_his_'+ i).onclick = function(){
+                                        windowName.MS_PausePlayBack({index:0},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#continue_his_'+ i).onclick = function(){
+                                        windowName.MS_ContinuePlayBack({index:0},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    // document.querySelector('#get_his_info_'+ i).onclick = function(){
+                                    //     windowName.MS_GetPlayBackInfo({index:0},function (data) {
+                                    //         console.log(data,'收到的回复');
+                                    //     })
+                                    // }
+                                    document.querySelector('#set_his_play_pos_'+ i).onclick = function(){
+                                        windowName.MS_SetPlayBackPos({index:0,pos:50},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#his_download_'+ i).onclick = function(){
+                                        windowName.MS_DownloadHisVideobyTime({cameraId:'34020000001320000109',index:0,startTime:'2020-09-08 16:00:00',endTime:'2020-09-08 16:30:00'},function (data) {
+                                            console.log(data,'收到的回复');
+                                            downloadId = data.result.split(',')[1]
+                                        })
+                                    }
+                                    document.querySelector('#get_his_download_pos_'+ i).onclick = function(){
+                                        windowName.MS_QueryDownloadPosition({downloadId:downloadId},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    // document.querySelector('#stop_his_download_'+ i).onclick = function(){
+                                    //     windowName.MS_StopDownload({downloadId:downloadId},function (data) {
+                                    //         console.log(data,'收到的回复');
+                                    //     })
+                                    // }
+                                    // document.querySelector('#slow_play_'+ i).onclick = function(){
+                                    //     windowName.MS_SlowPlayBack({index:0},function (data) {
+                                    //         console.log(data,'收到的回复');
+                                    //     })
+                                    // }
+                                    // document.querySelector('#fast_play_'+ i).onclick = function(){
+                                    //     windowName.MS_FastPlayBack({index:0},function (data) {
+                                    //         console.log(data,'收到的回复');
+                                    //     })
+                                    // }
+                                    document.querySelector('#fullscreen_'+ i).onclick = function(){
+                                        windowName.MS_PopupFullSceenCurWnd(null,function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#normal_play_'+ i).onclick = function(){
+                                        windowName.MS_PlaybackNormalSpeed({index:0},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#his_play_pop_time_select_'+ i).onclick = function(){
+                                        windowName.MS_PlayBackbyTimeEx({cameraId:'34020000001320000109',startTime:'2020-09-08 16:00:00',endTime:'2020-09-08 16:25:00',index:0},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    // document.querySelector('#get_cur_wnd_index_'+ i).onclick = function(){
+                                    //     windowName.MS_GetCurrentWindow(null,function (data) {
+                                    //         console.log(data,'收到的回复');
+                                    //     })
+                                    // }
+                                    document.querySelector('#set_record_download_path_'+ i).onclick = function(){
+                                        windowName.MS_SetHisVideoPath({hisPath:'E:\\'},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#set_snap_path_'+ i).onclick = function(){
+                                        windowName.MS_SetSnapPicPath({snapPicPath:'E:\\'},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    // document.querySelector('#get_snap_path_'+ i).onclick = function(){
+                                    //     windowName.MS_GetSnapPicPath(null,function (data) {
+                                    //         console.log(data,'收到的回复');
+                                    //     })
+                                    // }
+                                    // document.querySelector('#get_record_download_path_'+ i).onclick = function(){
+                                    //     windowName.MS_GetHisVideoPath(null,function (data) {
+                                    //         console.log(data,'收到的回复');
+                                    //     })
+                                    // }
+                                    document.querySelector('#stop_all_'+ i).onclick = function(){
+                                        windowName.MS_DisConnectAllCamera(null,function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#get_cur_video_info_'+ i).onclick = function(){
+                                        windowName.MS_GetCurrentVideoInfo({index:0},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#get_layout_'+ i).onclick = function(){
+                                        windowName.MS_GetLayoutState(null,function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#get_his_play_time_'+ i).onclick = function(){
+                                        windowName.MS_GetHisPlayTime({index:0},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#get_snap_pic_base64_'+ i).onclick = function(){
+                                        windowName.MS_GetLastSnapPic(null,function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#get_version_'+ i).onclick = function(){
+                                        windowName.MS_GetVersion(null,function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#get_last_snap_path_'+ i).onclick = function(){
+                                        windowName.MS_GetLastSnapPicPath(null,function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#get_last_snap_file_size_'+ i).onclick = function(){
+                                        windowName.MS_GetLastSnapPicSize(null,function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#get_record_list_'+ i).onclick = function(){
+                                        windowName.MS_GetRecdFileListbyTime({cameraId:'34020000001320000109',startTime:'2020-09-08 12:00:00',endTime:'2020-09-08 22:00:00'},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#set_target_pic_'+ i).onclick = function(){
+                                        windowName.MS_SetTargetPic({picUrl:'http:111.png',picShowOrHide:1},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#set_enable_redraw_'+ i).onclick = function(){
+                                        windowName.MS_SetReOnPaintType({rePaint:1},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#switch_wnd_'+ i).onclick = function(){
+                                        windowName.MS_SwitchWindow({indexOrigin:0,indexDest:1},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#get_download_path_'+ i).onclick = function(){
+                                        windowName.MS_GetPathByDowloadID({downloadId:downloadId},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#show_snap_pannel_'+ i).onclick = function(){
+                                        windowName.MS_ShowSnapPannel({isShow:1},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                }
+                            })
+                        }
+                    }else{
+                        if(res.err_code == 0) {
+                            console.log('窗口'+i +'调度注册成功')
+                            //注销调度
+                            document.querySelector('#logout_svr_'+ i).onclick = function(){
+                                windowName.MS_StopClient()
+                            }
+
+                            document.querySelector('#layout_mode_'+ i).onclick = function(){
+                                windowName.MS_SetLayoutMode({layout:2},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#set_layout_'+ i).onclick = function(){
+                                windowName.MS_SetCurrentLayout({layout:2},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#play_real_'+ i).onclick = function(){
+                                windowName.MS_SetCameraToWindow({cameraId:'rtsp://172.20.32.94:554/live/rtsp_push',index:0},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            let cycleTimer = ''
+                            document.querySelector('#videoCycle_'+ i).onclick = function(){
+                                let list = videoList.slice(0,9)
+                                function playMuiltVideo(){
+                                    list.forEach((item,index)=>{
+                                        windowName.MS_SetCameraToWindow({cameraId:item,index:index},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    })
+                                }
+                                playMuiltVideo()
+                                cycleTimer = setInterval(function () {
+                                    playMuiltVideo()
+                                },cycleTime * 1000)
+                            }
+                            document.querySelector('#videoCycle_stop_'+ i).onclick = function(){
+                                clearInterval(cycleTimer)
+                                windowName.MS_DisConnectAllCamera(null,function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#stop_real_'+ i).onclick = function(){
+                                windowName.MS_StopCurrentVideo({index:0},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#ptz_ctrl_start_'+ i).onclick = function(){
+                                windowName.MS_CtrlCameraPTZ({speed:3,orient:1}),function (data) {
+                                    console.log(data,'收到的回复');
+                                }
+                            }
+                            document.querySelector('#ptz_ctrl_stop_'+ i).onclick = function(){
+                                windowName.MS_CtrlCameraPTZ({speed:3,orient:0}),function (data) {
+                                    console.log(data,'收到的回复');
+                                }
+                            }
+                            document.querySelector('#camera_lens_'+ i).onclick = function(){
+                                windowName.MS_CtrlCameraLens({speed:3,index:0,lensCtrlType:1},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#snap_cur_wnd_'+ i).onclick = function(){
+                                windowName.MS_SnapPicOfCurrentWnd({type:0,infoType:"1",description:'测试'},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#keep_snap_'+ i).onclick = function(){
+                                windowName.MS_SnapPictures({type:0,index:0,infoType:"1",description:'测试'},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#record_'+ i).onclick = function(){
+                                windowName.MS_StartLocalRecordofCurrentWnd({filePath:'E:\\'},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#stop_record_'+ i).onclick = function(){
+                                windowName.MS_StopLocalRecordofCurentWnd({filePath:'E:\\'},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#play_his_'+ i).onclick = function(){
+                                windowName.MS_PlayBackbyTime({cameraId:'34020000001320000109',startTime:'2020-09-08 16:00:00',endTime:'2020-09-08 16:20:00',index:0},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#stop_his_'+ i).onclick = function(){
+                                windowName.MS_StopPlayBack({index:0},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#pause_his_'+ i).onclick = function(){
+                                windowName.MS_PausePlayBack({index:0},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#continue_his_'+ i).onclick = function(){
+                                windowName.MS_ContinuePlayBack({index:0},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            // document.querySelector('#get_his_info_'+ i).onclick = function(){
+                            //     windowName.MS_GetPlayBackInfo({index:0},function (data) {
+                            //         console.log(data,'收到的回复');
+                            //     })
+                            // }
+                            document.querySelector('#set_his_play_pos_'+ i).onclick = function(){
+                                windowName.MS_SetPlayBackPos({index:0,pos:50},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#his_download_'+ i).onclick = function(){
+                                windowName.MS_DownloadHisVideobyTime({cameraId:'34020000001320000109',index:0,startTime:'2020-09-08 16:00:00',endTime:'2020-09-08 16:30:00'},function (data) {
+                                    console.log(data,'收到的回复');
+                                    downloadId = data.result.split(',')[1]
+                                })
+                            }
+                            document.querySelector('#get_his_download_pos_'+ i).onclick = function(){
+                                windowName.MS_QueryDownloadPosition({downloadId:downloadId},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            // document.querySelector('#stop_his_download_'+ i).onclick = function(){
+                            //     windowName.MS_StopDownload({downloadId:downloadId},function (data) {
+                            //         console.log(data,'收到的回复');
+                            //     })
+                            // }
+                            // document.querySelector('#slow_play_'+ i).onclick = function(){
+                            //     windowName.MS_SlowPlayBack({index:0},function (data) {
+                            //         console.log(data,'收到的回复');
+                            //     })
+                            // }
+                            // document.querySelector('#fast_play_'+ i).onclick = function(){
+                            //     windowName.MS_FastPlayBack({index:0},function (data) {
+                            //         console.log(data,'收到的回复');
+                            //     })
+                            // }
+                            document.querySelector('#fullscreen_'+ i).onclick = function(){
+                                windowName.MS_PopupFullSceenCurWnd(null,function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#normal_play_'+ i).onclick = function(){
+                                windowName.MS_PlaybackNormalSpeed({index:0},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#his_play_pop_time_select_'+ i).onclick = function(){
+                                windowName.MS_PlayBackbyTimeEx({cameraId:'34020000001320000109',startTime:'2020-09-08 16:00:00',endTime:'2020-09-08 16:25:00',index:0},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            // document.querySelector('#get_cur_wnd_index_'+ i).onclick = function(){
+                            //     windowName.MS_GetCurrentWindow(null,function (data) {
+                            //         console.log(data,'收到的回复');
+                            //     })
+                            // }
+                            document.querySelector('#set_record_download_path_'+ i).onclick = function(){
+                                windowName.MS_SetHisVideoPath({hisPath:'E:\\'},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#set_snap_path_'+ i).onclick = function(){
+                                windowName.MS_SetSnapPicPath({snapPicPath:'E:\\'},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            // document.querySelector('#get_snap_path_'+ i).onclick = function(){
+                            //     windowName.MS_GetSnapPicPath(null,function (data) {
+                            //         console.log(data,'收到的回复');
+                            //     })
+                            // }
+                            // document.querySelector('#get_record_download_path_'+ i).onclick = function(){
+                            //     windowName.MS_GetHisVideoPath(null,function (data) {
+                            //         console.log(data,'收到的回复');
+                            //     })
+                            // }
+                            document.querySelector('#stop_all_'+ i).onclick = function(){
+                                windowName.MS_DisConnectAllCamera(null,function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#get_cur_video_info_'+ i).onclick = function(){
+                                windowName.MS_GetCurrentVideoInfo({index:0},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#get_layout_'+ i).onclick = function(){
+                                windowName.MS_GetLayoutState(null,function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#get_his_play_time_'+ i).onclick = function(){
+                                windowName.MS_GetHisPlayTime({index:0},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#get_snap_pic_base64_'+ i).onclick = function(){
+                                windowName.MS_GetLastSnapPic(null,function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#get_version_'+ i).onclick = function(){
+                                windowName.MS_GetVersion(null,function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#get_last_snap_path_'+ i).onclick = function(){
+                                windowName.MS_GetLastSnapPicPath(null,function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#get_last_snap_file_size_'+ i).onclick = function(){
+                                windowName.MS_GetLastSnapPicSize(null,function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#get_record_list_'+ i).onclick = function(){
+                                windowName.MS_GetRecdFileListbyTime({cameraId:'34020000001320000109',startTime:'2020-09-08 12:00:00',endTime:'2020-09-08 22:00:00'},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#set_target_pic_'+ i).onclick = function(){
+                                windowName.MS_SetTargetPic({picUrl:'http:111.png',picShowOrHide:1},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#set_enable_redraw_'+ i).onclick = function(){
+                                windowName.MS_SetReOnPaintType({rePaint:1},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#switch_wnd_'+ i).onclick = function(){
+                                windowName.MS_SwitchWindow({indexOrigin:0,indexDest:1},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#get_download_path_'+ i).onclick = function(){
+                                windowName.MS_GetPathByDowloadID({downloadId:downloadId},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#show_snap_pannel_'+ i).onclick = function(){
+                                windowName.MS_ShowSnapPannel({isShow:1},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                        }
+                    }
+                    //3.主动触发的消息回调
+                    windowName.MS_SetWindowControlCallback(function(event,data){
+                        console.log(data,'第'+i +'个主动触发的回复');
+                        if(data.cmd =='crash'){
+                            initVideo(option,windowName,i)
+                        }
+                    })
+            },function () {
+                //创建失败
+                alert('尝试加载播放器'+ option.id +'失败,请确认是否正确安装播放器')
+            })
+        }
+        function interval(delay, callback) {
+            return new Promise(resolve => {
+                let id = setInterval(() => {
+                    callback(id, resolve);
+                }, delay);
+            });
+        }
+        interval(delayTime, (id, resolve) => {
+            count ++
+            if (count > windowCount) {
+                clearInterval(id);
+                resolve();
+            }else {
+                start(count)
+            }
+        })
+
+        function start(i){
+            let option = getOptionName(i)
+            let csWindow = getWindowName(i)
+            initVideo(option,csWindow,i)
+        }
+        function getWindowName(i){
+            switch (i) {
+                case 1:
+                    return csWindow1
+                case 2:
+                    return csWindow2
+                case 3:
+                    return csWindow3
+                case 4:
+                    return csWindow4
+                case 5:
+                    return csWindow5
+                case 6:
+                    return csWindow6
+                case 7:
+                    return csWindow7
+                case 8:
+                    return csWindow8
+                case 9:
+                    return csWindow9
+                case 10:
+                    return csWindow10
+                case 11:
+                    return csWindow11
+                case 12:
+                    return csWindow12
+            }
+        }
+        function getOptionName(i){
+            switch (i) {
+                case 1:
+                    return option1
+                case 2:
+                    return option2
+                case 3:
+                    return option3
+                case 4:
+                    return option4
+                case 5:
+                    return option5
+                case 6:
+                    return option6
+                case 7:
+                    return option7
+                case 8:
+                    return option8
+                case 9:
+                    return option9
+                case 10:
+                    return option10
+                case 11:
+                    return option11
+                case 12:
+                    return option12
+            }
+        }
+        window.onresize = function(){
+            let csWindow = null
+            let option = null
+            for (let i = 1;i<=windowCount;i++){
+                csWindow = getWindowName(i)
+                option = getOptionName(i)
+                let pos= getElementPos(option,devicePixelRatio)
+                csWindow.MS_Resize(pos)
+            }
+        }
+        window.onscroll = function(){
+            let csWindow = null
+            let option = null
+            for (let i = 1;i<=windowCount;i++){
+                csWindow = getWindowName(i)
+                option = getOptionName(i)
+                let pos= getElementPos(option,devicePixelRatio)
+                csWindow.MS_Resize(pos)
+            }
+        }
+
+        window.onunload= function () {
+            let csWindow = null
+            for (let i = 1;i<=windowCount;i++){
+                csWindow = getWindowName(i)
+                csWindow.MS_DisConnectAllCamera()
+                csWindow.MS_DestroyWnd()
+                csWindow.MS_Disconnect()
+            }
+        }
+
+
+        function getElementPos(data,devicePixelRatio){
+            let ele =document.querySelector('#'+ data.id)
+            let elmentAttr = ele.getBoundingClientRect();
+            let windowHeight = Math.round(window.outerHeight-(window.innerHeight * devicePixelRatio)) //浏览器高度
+            let option = {
+                width:Math.round(elmentAttr.width* devicePixelRatio) ,
+                height:Math.round(elmentAttr.height* devicePixelRatio)  ,
+                left:Math.round(elmentAttr.left* devicePixelRatio ) ,
+                top:Math.round((elmentAttr.top * devicePixelRatio) + windowHeight), //距离浏览器顶部高度
+                ratio:devicePixelRatio, //浏览器缩放比例
+            }
+            return option
+        }
+    }
+</script>
+</body>
+</html>

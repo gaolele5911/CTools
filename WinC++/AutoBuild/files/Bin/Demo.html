@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CS播放器2.0</title>
+    <style>
+         html,body {width:100%;height:100%;overflow:hidden}
+		.card{height:98%;border: 1px solid #EBEEF5;box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+			transition:.3s;background-color: #FFF;padding: 15px;overflow:auto}
+        .btn{
+            color: #409eff;
+            background-color: #ecf5ff;
+			border: 1px solid;
+            border-color: #b3d8ff;
+            display: inline-block;
+            cursor: pointer;
+            text-align: center;
+            box-sizing: border-box;
+            font-weight: 500;
+            padding: 8px 16px;
+            font-size: 14px;
+            border-radius: 4px;
+            
+			margin: 5px 5px;
+			outline: none;
+        }
+		.btn:hover,.btn:focus {    background: #409eff; border-color: #409eff;color:#fff}
+        .leftBox{
+            width:25%;
+			float: left;
+            display:inline-block;
+            box-sizing: border-box;
+        }
+        .header{
+            margin: 0px 0 10px;
+        }
+        .rightBox{
+            width: 73%;
+            height: 100%;
+			float: left;
+            display:inline-block;
+            box-sizing: border-box;
+            position: relative;
+            margin-left: 1%
+        }
+        #csVideo{
+            width: 100%;
+            height: calc(99% - 42px);
+            background-color: #f1f2f5;
+        }
+        .dialog{
+            position: absolute;
+            left: 1200px;
+            top: 30px;
+            width: 400px;
+            height: 300px;
+            background-color: darkgrey;
+            display: none;
+        }
+        .cutting{
+            z-index: 5000;
+            background-color: #409eff;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<div class="leftBox card">
+    <h4 class="header">操作事件</h4>
+    <button id="login_svr" class="btn mrt15">登录</button>
+    <button id="logout_svr" class="btn mrt15" style="display:none">注销调度</button>
+    <!--<button id="cutWindow" class="btn mrt15">裁剪窗口</button>-->
+    <button id="show" class="btn mrt15">显示窗口</button>
+    <button id="hide" class="btn mrt15">隐藏窗口</button>
+    <button id="layout_mode" class="btn mrt15">设置布局类型</button>
+    <button id="set_layout_value_0" class="btn mrt15">获取设备</button>
+    <button id="set_layout_value_1" class="btn mrt15">设置布局layout=1</button>
+    <button id="set_layout_value_2" class="btn mrt15">设置布局layout=2</button>
+    <button id="play_real" class="btn mrt15">指定窗口播放</button>
+    <button id="stop_real" class="btn mrt15">停止指定窗体播放</button>
+	<button id="play_rtsp" class="btn mrt15">播放rtsp串</button>
+    <button id="stop_rtsp" class="btn mrt15">停止播放rtsp串</button>
+    <button id="download_rtsp" class="btn mrt15">下载rtsp视频</button>
+	<button id="play_rtmp" class="btn mrt15">播放rtmp视频</button>
+    <button id="stop_rtmp" class="btn mrt15">停止rtmp视频</button>
+	<button id="play_rtmp_his" class="btn mrt15">播放rtmp历史视频</button>
+    <button id="stop_rtmp_his" class="btn mrt15">停止rtmp历史视频</button>
+	<!--<button id="videoCycle" class="btn mrt15" style="display:none">实时视频9路轮询播放</button>
+    <button id="videoCycle_stop" class="btn mrt15" style="display:none">停止实时视频9路轮询播放</button>-->
+    <button id="ptz_ctrl_start" class="btn mrt15">开启云台控制</button>
+    <button id="ptz_ctrl_stop" class="btn mrt15">停止云台控制</button>
+    <button id="camera_lens" class="btn mrt15" style="display:none">镜头控制</button>
+    <button id="snap_cur_wnd" class="btn mrt15">当前窗体抓拍</button>
+    <button id="keep_snap" class="btn mrt15">连续抓拍</button>
+    <button id="record" class="btn mrt15">启动当前窗体录像</button>
+    <button id="stop_record" class="btn mrt15">停止当前窗体录像</button>
+    <button id="play_his" class="btn mrt15">播放指定时间段内的历史码流</button>
+    <button id="stop_his" class="btn mrt15">停止历史码流播放</button>
+    <button id="pause_his" class="btn mrt15">暂停历史码流播放</button>
+    <button id="continue_his" class="btn mrt15">暂停后继续播放历史码流播放</button>
+    <button id="get_his_info" class="btn mrt15" style="display:none">获取历史码流播放信息</button>
+    <button id="set_his_play_pos" class="btn mrt15">设置历史码流播放位置</button>
+    <button id="his_download" class="btn mrt15">下载指定时间段内的视频</button>
+    <button id="get_his_download_pos" class="btn mrt15">获取下载位置</button>
+    <!--<button id="stop_his_download" class="btn mrt15">停止录像下载</button>-->
+    <!--<button id="slow_play" class="btn mrt15">慢放</button>-->
+    <!--<button id="fast_play" class="btn mrt15">快放</button>-->
+    <button id="fullscreen" class="btn mrt15">全屏</button>
+    <button id="normal_play" class="btn mrt15">恢复正常速率播放</button>
+    <button id="his_play_pop_time_select" class="btn mrt15">播放指定时间段内的历史码流扩展接口，弹出时间选择框</button>
+    <button id="get_cur_wnd_index" class="btn mrt15">获取当前窗体</button>
+    <button id="set_record_download_path" class="btn mrt15">设置录像/下载存储位置</button>
+    <button id="set_snap_path" class="btn mrt15">设置抓拍位置</button>
+    <button id="get_snap_path" class="btn mrt15" style="display:none">获取抓拍位置</button>
+    <button id="get_record_download_path" class="btn mrt15" style="display:none">获取录像下载路径</button>
+    <button id="stop_all" class="btn mrt15">关闭所有窗体码流播放</button>
+    <button id="get_cur_video_info" class="btn mrt15">获取窗口是否播放视频和播放是历史还是实时 + 摄像头ID</button>
+    <button id="get_layout" class="btn mrt15">获取布局</button>
+    <button id="get_his_play_time" class="btn mrt15">获取指定窗口的历史视频播放时间</button>
+    <button id="get_snap_pic_base64" class="btn mrt15">获取上一张抓拍图片base64码流</button>
+    <button id="get_version" class="btn mrt15">获取插件版本信息</button>
+    <button id="get_last_snap_path" class="btn mrt15">获取上一张抓拍图片的路径</button>
+    <button id="get_last_snap_file_size" class="btn mrt15">获取上一张抓拍图片的大小</button>
+    <button id="get_record_list" class="btn mrt15">获取指定时间段内的录像文件列表</button>
+    <button id="set_target_pic" class="btn mrt15">视频追踪中设置追踪目标图片，并设置目标窗口是否显示</button>
+    <button id="set_enable_redraw" class="btn mrt15">ocx可否重绘画面（网页滚动条滚动时停止刷新）</button>
+    <button id="switch_wnd" class="btn mrt15">交换窗口</button>
+    <button id="get_download_path" class="btn mrt15">获取下载路径</button>
+    <button id="show_snap_pannel" class="btn mrt15">显示/隐藏抓拍面板</button>
+</div>
+<div class="rightBox">
+    <h4 class="header" style="margin:10px">播放器</h4>
+    <div id="csVideo" class="mrt15"></div>
+    </div>
+</div>
+<div id="dialog"  class="dialog"></div>
+<div id="cutting"  class="cutting" ></div>
+<script src="./dist/eventBus.js"></script>
+<script src="./dist/webPlugin.js"></script>
+<script>
+    window.onload= function(){
+        let ip = '172.20.32.109:8089'
+        let isLoginOption = {
+            isLogin:false,//true 自动登录，false不自动登录
+            userName:'admin',
+            groupName:'11111111',
+            ip:ip
+        }
+		let playInfo = {
+			cameraId: '71000000001320000016',
+			index: 0,
+            url: 'rtsp://admin:sailing123@172.20.32.250:554/Streaming/tracks/101?starttime=20210123t064612z&endtime=20210123t064816z&speed=4',
+			startTime: '2020-12-16 10:00:00',
+			endTime: '2020-12-16 10:10:00',
+		}
+        let downloadId = ''
+        let videoList = ['1000000191','1000000192','1000000193','1000000194','1000000195','1000000196','1000000197','1000000198','1000000199','1000000200','34020000001320000109','34020000001320000110'] //轮询播放的设备id
+        let cycleTime = 30 //轮询时间，单位s
+        let option = {
+            id:'csVideo',
+            isSingleLayout:0 //是否是单窗口ocx 0//不是 1是
+        }
+		let customizeConfig = {  //灵活配置
+            "ptz_his_ctrl": 0, //云台历史控制面板 0不显示，1，显示
+            "ctr_bar": {
+                "layout": 1, //layout分屏切换 0不显示，1，显示
+                "focus_screen_max": 1, //焦点窗口最大化 0不显示，1，显示
+                "stop_all": 1, //关闭所有窗体 0不显示，1，显示
+                "full_screen": 1, //全屏 0不显示，1，显示
+                "record_all": 1, //所有窗体录屏 0不显示，1，显示
+                "sap_all": 1, //抓拍 0不显示，1，显示
+                "keep_snap_all": 0, //连续抓拍 0不显示，1，显示
+                "mouse_ptz_ctrl": 1, //鼠标云台控制 0不显示，1，显示
+            },
+            "top_bar": {
+                "camera_icon": 0, //设备图标 0不显示，1，显示
+                "camera_name": 1, //设备名称 0不显示，1，显示
+                "camera_type": 1, //设备类型 0不显示，1，显示
+                "lost_rate": 1, //丢包率 0不显示，1，显示
+                "bit_rate": 1, //码率 0不显示，1，显示
+                "real_his_tip": 1, //实时历史提示 0不显示，1，显示
+                "full_screen": 1, //全屏切换 0不显示，1，显示
+            },
+            "bottom_bar": {
+                "snap": 1, //抓拍 0不显示，1，显示
+                "keep_snap": 0, //连续抓拍 0不显示，1，显示
+                "record": 1, //录屏 0不显示，1，显示
+                "download": 1, //下载 0不显示，1，显示
+                "real_to_his": 1, //实时历史转换 0不显示，1，显示
+                "digital_zoom": 1, //数字放大 0不显示，1，显示
+            }
+		}
+        // ==========初始化开始===============
+        const video =  new CSVideo(isLoginOption)
+        // video.MS_WakeUp('MtiWatchService://')//exe
+        let csWindow = video.MS_Init()
+		csWindow.maxConnectCount = 3; //重连次数
+        function initVideo() {
+            // 1.创建窗口
+            csWindow.MS_InitWindow(option,function (res) {
+                if(res.err_code == 200){
+                    //2.开始业务
+                    // 裁剪窗口----待实现
+                   /*  document.querySelector('#cutWindow').onclick = function(){
+                        let dialogStatus =  document.querySelector('#dialog').style.display
+                        let videoWindow = ''
+                        let dialogBox = ''
+                        let cuttingArea = ''
+
+                        if(dialogStatus == 'none' || dialogStatus == ''){
+                            document.querySelector('#dialog').style.display = 'block'
+                            document.querySelector('#cutting').style.display = 'block'
+                            videoWindow = document.querySelector('#csVideo').getBoundingClientRect()
+                            dialogBox = document.querySelector('#dialog').getBoundingClientRect()
+                            cuttingArea = {
+                                width:dialogBox.width,
+                                height:dialogBox.height-(videoWindow.top-dialogBox.top),
+                                left:dialogBox.left,
+                                top:videoWindow.top,
+                            }
+                            //裁剪坐标参数
+                            document.querySelector('#cutting').style.width = cuttingArea.width +'px'
+                            document.querySelector('#cutting').style.height = cuttingArea.height +'px'
+                            document.querySelector('#cutting').style.left = cuttingArea.left +'px'
+                            document.querySelector('#cutting').style.top = cuttingArea.top +'px'
+                            csWindow.MS_CuttingPartWindow(cuttingArea)
+                        }else{
+                            document.querySelector('#dialog').style.display = 'none'
+                            document.querySelector('#cutting').style.display = 'none'
+                            //恢复裁剪
+                            csWindow.MS_RepairPartWindow(cuttingArea)
+                        }
+                    } */
+                    // 灵活配置
+                    csWindow.MS_CustomizeConfig(customizeConfig)
+                    // 显示窗口
+                    document.querySelector('#show').onclick = function(){
+                        csWindow.MS_ShowWnd()
+                    }
+                    // 隐藏窗口
+                    document.querySelector('#hide').onclick = function(){
+                        csWindow.MS_HideWnd()
+                    }
+                    if(!isLoginOption.isLogin){
+                        // 登录调度
+                        document.querySelector('#login_svr').onclick = function(res){
+                            csWindow.MS_StartClient({userName:isLoginOption.userName,groupName:isLoginOption.groupName,ip:isLoginOption.ip},function (res) {
+                                // err_code的值为0代表成功，其他值为失败
+                                if(res.err_code == 200) {
+                                    console.log('登录成功')
+                                    //注销调度
+                                    document.querySelector('#logout_svr').onclick = function(){
+                                        csWindow.MS_StopClient()
+                                    }
+                                    document.querySelector('#layout_mode').onclick = function(){
+                                        csWindow.MS_SetLayoutMode({layout:2},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#set_layout_value_0').onclick = function(){
+                                        csWindow.MS_SetCurrentLayout({layout:2},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#set_layout_value_1').onclick = function(){
+                                        csWindow.MS_SetCurrentLayout({layout:2},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#set_layout_value_2').onclick = function(){
+                                        csWindow.MS_SetCurrentLayout({layout:2},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#play_real').onclick = function(){
+									//34020000001320000110
+                                        csWindow.MS_SetCameraToWindow({cameraId:playInfo.cameraId,index:playInfo.index},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#stop_real').onclick = function(){
+                                        csWindow.MS_StopCurrentVideo({index:playInfo.index},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+									document.querySelector('#play_rtmp').onclick = function(){
+										//
+										csWindow.MS_PlayLiveVideo({cameraId:playInfo.cameraId,index:playInfo.index,modal:'rtmp'},function (data) {
+											console.log(data,'收到的回复');
+										})
+									}
+									document.querySelector('#stop_rtmp').onclick = function(){
+										csWindow.MS_StopLiveVideo({index:playInfo.index,modal:'rtmp'},function (data) {
+											console.log(data,'收到的回复');
+										})
+									}
+									document.querySelector('#play_rtmp_his').onclick = function(){
+										csWindow.MS_PlayHistoryVideo({
+											cameraId:playInfo.cameraId,
+											index: playInfo.index,
+											startTime: playInfo.startTime,
+											endTime: playInfo.endTime,
+											modal:'rtmp'
+										},function (data) {
+											console.log(data,'收到的回复');
+										})
+									}
+									document.querySelector('#stop_rtmp_his').onclick = function(){
+										csWindow.MS_StopHistoryVideo({index:playInfo.index,modal:'rtmp'},function (data) {
+											console.log(data,'收到的回复');
+										})
+									}
+									document.querySelector('#play_rtsp').onclick = function(){
+										csWindow.MS_PlayRtspVideo({url:playInfo.url,index:playInfo.index},function (data) {
+											console.log(data,'收到的回复');
+										})
+									}
+									document.querySelector('#stop_rtsp').onclick = function(){
+										csWindow.MS_StopRtspVideo({index:playInfo.index},function (data) {
+											console.log(data,'收到的回复');
+										})
+                                    }
+                                    document.querySelector('#download_rtsp').onclick = function(){
+                                        csWindow.MS_RtspDownload({
+                                            url:playInfo.url,
+                                            startTime: playInfo.startTime,
+                                            endTime: playInfo.endTime,
+                                        },function (data) {
+											console.log(data,'收到的回复');
+										})
+                                    }
+                                    
+									let cycleTimer = ''
+                                    /*document.querySelector('#videoCycle').onclick = function(){
+                                        let list = videoList.slice(0,9)
+                                        function playMuiltVideo(){
+                                            list.forEach((item,index)=>{
+                                                csWindow.MS_SetCameraToWindow({cameraId:item,index:index},function (data) {
+                                                    console.log(data,'收到的回复');
+                                                })
+                                            })
+                                        }
+                                        playMuiltVideo()
+                                        cycleTimer = setInterval(function () {
+                                            playMuiltVideo()
+                                        },cycleTime * 1000)
+                                    }
+                                    document.querySelector('#videoCycle_stop').onclick = function(){
+                                        clearInterval(cycleTimer)
+                                        csWindow.MS_DisConnectAllCamera(null,function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }*/
+                                    document.querySelector('#ptz_ctrl_start').onclick = function(){
+                                        csWindow.MS_CtrlCameraPTZ({speed:4,orient:1}),function (data) {
+                                            console.log(data,'收到的回复');
+                                        }
+                                    }
+                                    document.querySelector('#ptz_ctrl_stop').onclick = function(){
+                                        csWindow.MS_CtrlCameraPTZ({speed:4,orient:0}),function (data) {
+                                            console.log(data,'收到的回复');
+                                        }
+                                    }
+                                    document.querySelector('#camera_lens').onclick = function(){
+                                        csWindow.MS_CtrlCameraLens({speed:3,index:0,lensCtrlType:2},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#snap_cur_wnd').onclick = function(){
+                                        csWindow.MS_SnapPicOfCurrentWnd({type:0,infoType:"1",description:'测试'},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#keep_snap').onclick = function(){
+                                        csWindow.MS_SnapPictures({type:1,index:0,infoType:"1",description:'测试'},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#record').onclick = function(){
+                                        csWindow.MS_StartLocalRecordofCurrentWnd({filePath:'E:\\'},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#stop_record').onclick = function(){
+                                        csWindow.MS_StopLocalRecordofCurentWnd({filePath:'E:\\'},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#play_his').onclick = function(){
+                                        csWindow.MS_PlayBackbyTime({cameraId:'rtsp://admin:sailing123@172.20.32.250:554/Streaming/tracks/101?starttime=20210123t063812z&endtime=20210123t064816z&speed=4',startTime:'2021-01-12 10:00:00',endTime:'2021-01-12 10:10:00',index:0},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#stop_his').onclick = function(){
+                                        csWindow.MS_StopPlayBack({index:0},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#pause_his').onclick = function(){
+                                        csWindow.MS_PausePlayBack({index:0},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#continue_his').onclick = function(){
+                                        csWindow.MS_ContinuePlayBack({index:0},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    // document.querySelector('#get_his_info').onclick = function(){
+                                    //     csWindow.MS_GetPlayBackInfo({index:0},function (data) {
+                                    //         console.log(data,'收到的回复');
+                                    //     })
+                                    // }
+                                    document.querySelector('#set_his_play_pos').onclick = function(){
+                                        csWindow.MS_SetPlayBackPos({index:0,pos:50},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#his_download').onclick = function(){
+                                        csWindow.MS_DownloadHisVideobyTime({cameraId:'71000000001320000016',index:0,startTime:'2021-01-27 16:00:30',endTime:'2021-01-27 16:10:00'},function (data) {
+                                            console.log(data,'收到的回复');
+                                            downloadId = data.result.split(',')[1]
+                                        })
+                                    }
+                                    document.querySelector('#get_his_download_pos').onclick = function(){
+                                        csWindow.MS_QueryDownloadPosition({downloadId:downloadId},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    // document.querySelector('#stop_his_download').onclick = function(){
+                                    //     csWindow.MS_StopDownload({downloadId:downloadId},function (data) {
+                                    //         console.log(data,'收到的回复');
+                                    //     })
+                                    // }
+                                    // document.querySelector('#slow_play').onclick = function(){
+                                    //     csWindow.MS_SlowPlayBack({index:0},function (data) {
+                                    //         console.log(data,'收到的回复');
+                                    //     })
+                                    // }
+                                    // document.querySelector('#fast_play').onclick = function(){
+                                    //     csWindow.MS_FastPlayBack({index:0},function (data) {
+                                    //         console.log(data,'收到的回复');
+                                    //     })
+                                    // }
+                                    document.querySelector('#fullscreen').onclick = function(){
+                                        csWindow.MS_PopupFullSceenCurWnd(null,function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#normal_play').onclick = function(){
+                                        csWindow.MS_PlaybackNormalSpeed({index:0},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#his_play_pop_time_select').onclick = function(){
+                                        csWindow.MS_PlayBackbyTimeEx({cameraId:'71000000001320000003',startTime:'2020-09-08 16:00:00',endTime:'2020-09-08 16:25:00',index:0},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                     document.querySelector('#get_cur_wnd_index').onclick = function(){
+                                         csWindow.MS_GetCurrentWindow(null,function (data) {
+                                             console.log(data,'收到的回复');
+                                         })
+                                     }
+                                    document.querySelector('#set_record_download_path').onclick = function(){
+                                        csWindow.MS_SetHisVideoPath({hisPath:'E:\\'},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#set_snap_path').onclick = function(){
+                                        csWindow.MS_SetSnapPicPath({snapPicPath:'E:\\'},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    // document.querySelector('#get_snap_path').onclick = function(){
+                                    //     csWindow.MS_GetSnapPicPath(null,function (data) {
+                                    //         console.log(data,'收到的回复');
+                                    //     })
+                                    // }
+                                    // document.querySelector('#get_record_download_path').onclick = function(){
+                                    //     csWindow.MS_GetHisVideoPath(null,function (data) {
+                                    //         console.log(data,'收到的回复');
+                                    //     })
+                                    // }
+                                    document.querySelector('#stop_all').onclick = function(){
+                                        csWindow.MS_DisConnectAllCamera(null,function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#get_cur_video_info').onclick = function(){
+                                        csWindow.MS_GetCurrentVideoInfo({index:0},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#get_layout').onclick = function(){
+                                        csWindow.MS_GetLayoutState(null,function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#get_his_play_time').onclick = function(){
+                                        csWindow.MS_GetHisPlayTime({index:0},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#get_snap_pic_base64').onclick = function(){
+                                        csWindow.MS_GetLastSnapPic(null,function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#get_version').onclick = function(){
+                                        csWindow.MS_GetVersion(null,function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#get_last_snap_path').onclick = function(){
+                                        csWindow.MS_GetLastSnapPicPath(null,function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#get_last_snap_file_size').onclick = function(){
+                                        csWindow.MS_GetLastSnapPicSize(null,function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#get_record_list').onclick = function(){
+                                        csWindow.MS_GetRecdFileListbyTime({cameraId:'34020000001320000109',startTime:'2020-09-08 12:00:00',endTime:'2020-09-08 22:00:00'},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#set_target_pic').onclick = function(){
+                                        csWindow.MS_SetTargetPic({picUrl:'http:111.png',picShowOrHide:1},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#set_enable_redraw').onclick = function(){
+                                        csWindow.MS_SetReOnPaintType({rePaint:1},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#switch_wnd').onclick = function(){
+                                        csWindow.MS_SwitchWindow({indexOrigin:0,indexDest:1},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#get_download_path').onclick = function(){
+                                        csWindow.MS_GetPathByDowloadID({downloadId:downloadId},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                    document.querySelector('#show_snap_pannel').onclick = function(){
+                                        csWindow.MS_ShowSnapPannel({isShow:0},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    }
+                                }
+                            })
+                        }
+                    }else{
+                        // err_code的值为0代表成功，其他值为失败
+                        if(res.err_code == 200) {
+                            console.log('登录成功')
+                            //注销调度
+                            if(document.querySelector('#logout_svr')){
+								document.querySelector('#logout_svr').onclick = function(){
+									csWindow.MS_StopClient()
+								}
+							}
+                            document.querySelector('#layout_mode').onclick = function(){
+                                csWindow.MS_SetLayoutMode({layout:2},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#set_layout_value_0').onclick = function(){
+                                csWindow.MS_SetCurrentLayout({layout:2},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#set_layout_value_1').onclick = function(){
+                                csWindow.MS_SetCurrentLayout({layout:2},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#set_layout_value_2').onclick = function(){
+                                csWindow.MS_SetCurrentLayout({layout:2},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#play_real').onclick = function(){
+                                csWindow.MS_SetCameraToWindow({cameraId:playInfo.cameraId,index:playInfo.index},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#stop_real').onclick = function(){
+                                csWindow.MS_StopCurrentVideo({index:playInfo.index},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+							document.querySelector('#play_rtmp').onclick = function(){
+								//
+                                csWindow.MS_PlayLiveVideo({cameraId:playInfo.cameraId,index:playInfo.index,modal:'rtmp'},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#stop_rtmp').onclick = function(){
+                                csWindow.MS_StopLiveVideo({index:playInfo.index,modal:'rtmp'},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+							document.querySelector('#play_rtmp_his').onclick = function(){
+                                csWindow.MS_PlayHistoryVideo({
+									cameraId:playInfo.cameraId,
+									index: playInfo.index,
+									startTime: playInfo.startTime,
+									endTime: playInfo.endTime,
+									modal:'rtmp'
+								},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#stop_rtmp_his').onclick = function(){
+                                csWindow.MS_StopHistoryVideo({index:playInfo.index,modal:'rtmp'},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+							document.querySelector('#play_rtsp').onclick = function(){
+                                csWindow.MS_PlayRtspVideo({url:playInfo.url,index:playInfo.index},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#stop_rtsp').onclick = function(){
+                                csWindow.MS_StopRtspVideo({index:playInfo.index},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#download_rtsp').onclick = function(){
+                                csWindow.MS_RtspDownload({
+                                    url:playInfo.url,
+                                    startTime: playInfo.startTime,
+                                    endTime: playInfo.endTime
+                                },function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            let cycleTimer = ''
+                            /*document.querySelector('#videoCycle').onclick = function(){
+                                let list = videoList.slice(0,9)
+                                function playMuiltVideo(){
+                                    list.forEach((item,index)=>{
+                                        csWindow.MS_SetCameraToWindow({cameraId:item,index:index},function (data) {
+                                            console.log(data,'收到的回复');
+                                        })
+                                    })
+                                }
+                                playMuiltVideo()
+                                cycleTimer = setInterval(function () {
+                                    playMuiltVideo()
+                                },cycleTime * 1000)
+                            }
+                            document.querySelector('#videoCycle_stop').onclick = function(){
+                                clearInterval(cycleTimer)
+                                csWindow.MS_DisConnectAllCamera(null,function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }*/
+                            document.querySelector('#ptz_ctrl_start').onclick = function(){
+                                csWindow.MS_CtrlCameraPTZ({speed:4,orient:1}),function (data) {
+                                    console.log(data,'收到的回复');
+                                }
+                            }
+                            document.querySelector('#ptz_ctrl_stop').onclick = function(){
+                                csWindow.MS_CtrlCameraPTZ({speed:4,orient:0}),function (data) {
+                                    console.log(data,'收到的回复');
+                                }
+                            }
+                            document.querySelector('#camera_lens').onclick = function(){
+                                csWindow.MS_CtrlCameraLens({speed:3,index:0,lensCtrlType:2},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#snap_cur_wnd').onclick = function(){
+                                csWindow.MS_SnapPicOfCurrentWnd({type:0,infoType:"1",description:'测试'},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#keep_snap').onclick = function(){
+                                csWindow.MS_SnapPictures({type:1,index:0,infoType:"1",description:'测试'},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#record').onclick = function(){
+                                csWindow.MS_StartLocalRecordofCurrentWnd({filePath:'E:\\'},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#stop_record').onclick = function(){
+                                csWindow.MS_StopLocalRecordofCurentWnd({filePath:'E:\\'},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#play_his').onclick = function(){
+                                csWindow.MS_PlayBackbyTime({cameraId:'34020000001320000109',startTime:'2020-09-08 16:00:00',endTime:'2020-09-08 16:20:00',index:0},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#stop_his').onclick = function(){
+                                csWindow.MS_StopPlayBack({index:0},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#pause_his').onclick = function(){
+                                csWindow.MS_PausePlayBack({index:0},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#continue_his').onclick = function(){
+                                csWindow.MS_ContinuePlayBack({index:0},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            // document.querySelector('#get_his_info').onclick = function(){
+                            //     csWindow.MS_GetPlayBackInfo({index:0},function (data) {
+                            //         console.log(data,'收到的回复');
+                            //     })
+                            // }
+                            document.querySelector('#set_his_play_pos').onclick = function(){
+                                csWindow.MS_SetPlayBackPos({index:0,pos:50},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#his_download').onclick = function(){
+                                csWindow.MS_DownloadHisVideobyTime({cameraId:'34020000001320000109',index:0,startTime:'2020-09-08 16:00:00',endTime:'2020-09-08 16:30:00'},function (data) {
+                                    console.log(data,'收到的回复');
+                                    downloadId = data.result.split(',')[1]
+                                })
+                            }
+                            document.querySelector('#get_his_download_pos').onclick = function(){
+                                csWindow.MS_QueryDownloadPosition({downloadId:downloadId},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            // document.querySelector('#stop_his_download').onclick = function(){
+                            //     csWindow.MS_StopDownload({downloadId:downloadId},function (data) {
+                            //         console.log(data,'收到的回复');
+                            //     })
+                            // }
+                            // document.querySelector('#slow_play').onclick = function(){
+                            //     csWindow.MS_SlowPlayBack({index:0},function (data) {
+                            //         console.log(data,'收到的回复');
+                            //     })
+                            // }
+                            // document.querySelector('#fast_play').onclick = function(){
+                            //     csWindow.MS_FastPlayBack({index:0},function (data) {
+                            //         console.log(data,'收到的回复');
+                            //     })
+                            // }
+                            document.querySelector('#fullscreen').onclick = function(){
+                                csWindow.MS_PopupFullSceenCurWnd(null,function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#normal_play').onclick = function(){
+                                csWindow.MS_PlaybackNormalSpeed({index:0},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#his_play_pop_time_select').onclick = function(){
+                                csWindow.MS_PlayBackbyTimeEx({cameraId:'34020000001320000109',startTime:'2020-09-08 16:00:00',endTime:'2020-09-08 16:25:00',index:0},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            // document.querySelector('#get_cur_wnd_index').onclick = function(){
+                            //     csWindow.MS_GetCurrentWindow(null,function (data) {
+                            //         console.log(data,'收到的回复');
+                            //     })
+                            // }
+                            document.querySelector('#set_record_download_path').onclick = function(){
+                                csWindow.MS_SetHisVideoPath({hisPath:'E:\\'},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#set_snap_path').onclick = function(){
+                                csWindow.MS_SetSnapPicPath({snapPicPath:'E:\\'},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            // document.querySelector('#get_snap_path').onclick = function(){
+                            //     csWindow.MS_GetSnapPicPath(null,function (data) {
+                            //         console.log(data,'收到的回复');
+                            //     })
+                            // }
+                            // document.querySelector('#get_record_download_path').onclick = function(){
+                            //     csWindow.MS_GetHisVideoPath(null,function (data) {
+                            //         console.log(data,'收到的回复');
+                            //     })
+                            // }
+                            document.querySelector('#stop_all').onclick = function(){
+                                csWindow.MS_DisConnectAllCamera(null,function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#get_cur_video_info').onclick = function(){
+                                csWindow.MS_GetCurrentVideoInfo({index:0},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#get_layout').onclick = function(){
+                                csWindow.MS_GetLayoutState(null,function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#get_his_play_time').onclick = function(){
+                                csWindow.MS_GetHisPlayTime({index:0},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#get_snap_pic_base64').onclick = function(){
+                                csWindow.MS_GetLastSnapPic(null,function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#get_version').onclick = function(){
+                                csWindow.MS_GetVersion(null,function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#get_last_snap_path').onclick = function(){
+                                csWindow.MS_GetLastSnapPicPath(null,function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#get_last_snap_file_size').onclick = function(){
+                                csWindow.MS_GetLastSnapPicSize(null,function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#get_record_list').onclick = function(){
+                                csWindow.MS_GetRecdFileListbyTime({cameraId:'34020000001320000109',startTime:'2020-09-08 12:00:00',endTime:'2020-09-08 22:00:00'},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#set_target_pic').onclick = function(){
+                                csWindow.MS_SetTargetPic({picUrl:'http:111.png',picShowOrHide:1},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#set_enable_redraw').onclick = function(){
+                                csWindow.MS_SetReOnPaintType({rePaint:1},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#switch_wnd').onclick = function(){
+                                csWindow.MS_SwitchWindow({indexOrigin:0,indexDest:1},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#get_download_path').onclick = function(){
+                                csWindow.MS_GetPathByDowloadID({downloadId:downloadId},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+                            document.querySelector('#show_snap_pannel').onclick = function(){
+                                csWindow.MS_ShowSnapPannel({isShow:1},function (data) {
+                                    console.log(data,'收到的回复');
+                                })
+                            }
+
+                        }
+                    }
+                    //3.主动触发的消息回调
+                    csWindow.MS_SetWindowControlCallback(function(event,data){
+                        console.log(data,'主动触发的回复');
+                        if(data.cmd =='crash'){
+                            initVideo()
+                        }
+                    });
+                 }else{
+                    console.log('播放器窗口初始化失败')
+                }
+            },function () {
+                //创建失败
+                alert('尝试加载播放器'+ option.id +'失败,请确认是否正确安装播放器')
+            })
+        }
+        initVideo()
+
+        window.onunload= function () {
+            csWindow.MS_DisConnectAllCamera()
+            csWindow.MS_DestroyWnd()
+            csWindow.MS_Disconnect()
+        }
+    }
+</script>
+</body>
+</html>

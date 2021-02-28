@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>webplayer2.0</title>
+		<style>
+		html,body,.container{width:100%;height:100%;overflow: hidden;margin: 0;padding: 0}
+		.container{padding: 10px; }
+		.float{float:left;display: inline-block;}
+		.card{width: 16%;height:95%;border: 1px solid #EBEEF5;box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+			transition:.3s;background-color: #FFF;padding: 15px}
+		.flex {display: flex;justify-content: normal;align-items: center;flex-direction: column;}
+		.content {width: 81%;height:98%;margin-left: 0.5%;}
+		.btn{display: inline-block;cursor: pointer;text-align: center;box-sizing: border-box;margin: 10px;font-size: 15px;padding: 8px 20px;border-radius: 4px;border: 1px solid #dcdfe6;background: #fff;outline:none;}
+		.btn:active {outline: none !important;filter:chroma(color=#000000);}
+		.btn[disabled]{color: #bcbec2 !important;background-color: #f4f4f5 !important;border-color: #e9e9eb !important;cursor: no-drop;}
+		.primary{background-color: #409eff;border-color: #409eff;color: #fff;}
+		.primary:focus,.primary:hover{background: #66b1ff;border-color: #66b1ff;color: #fff;}
+		.success{background-color: #67c23a;border-color: #67c23a;color: #fff;}
+		.success.plain{background-color: #f0f9eb;border-color: #c2e7b0;color: #67c23a;}
+		.success:focus,.success:hover{background: #85ce61;border-color: #85ce61;color: #fff;}
+		.danger{background-color: #f56c6c;border-color: #f56c6c;color: #fff;}
+		.danger.plain{background-color: #fef0f0;border-color: #fbc4c4;color: #f56c6c;}
+		.danger:focus,.danger:hover{background: #f78989;border-color: #f78989;color: #fff;}
+		.player {width: 32%;height: 32%;margin: 0.4%;display:inline-block;background:#f1f2f5}
+		</style>
+		<script src="./dist/eventBus.js"></script>
+		<script src="./dist/webPlugin.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="float card">
+				<div class=" flex">
+					 <button id="loginAll" class="btn primary" >全部登录</button>
+					 <button id="playAll" class="btn success plain" disabled>全部播放</button>
+					 <button id="stopAll" class="btn danger plain" disabled>全部关闭</button>
+				</div>
+				 
+			</div>
+			<div class="float content">
+				<div id="csPlayer0" class="player"></div>
+				<div id="csPlayer1" class="player"></div>
+				<div id="csPlayer2" class="player"></div>
+				<div id="csPlayer3" class="player"></div>
+				<div id="csPlayer4" class="player"></div>
+				<div id="csPlayer5" class="player"></div>
+				<div id="csPlayer6" class="player"></div>
+				<div id="csPlayer7" class="player"></div>
+				<div id="csPlayer8" class="player"></div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			window.onload= function(){
+				const data = {
+					deviceList: ['71000000001320000003','71000000001320000002','71000000001320000003','71000000001320000002','71000000001320000003','71000000001320000002','71000000001320000003','71000000001320000002','71000000001320000003'],
+					option: {
+						isLogin: false,
+						userName: 'admin',
+						groupName: '11111111',
+						ip: '172.20.32.94:8089'
+					},
+					loginNumber: 0
+				}
+				let csPlayer = {}
+				function CsPlayer(id){
+					let video = new CSVideo(data.option)
+					let csWindow = video.MS_Init() 
+					csWindow.MS_InitWindow({
+						id: 'csPlayer'+id,
+						isSingleLayout:1 //是否是单窗口ocx 0//不是 1是
+					},function(){
+					window.onresize = function(){
+						for (let i = 0;i<9;i++){
+							setTimeout(function(){
+								let option = setPosition(i)
+								csPlayer['index'+i].MS_Resize(option)
+							},10)
+							
+						}	
+					}
+					window.onscroll = function(){
+						for (let i = 0;i<9;i++){
+							let option = setPosition(i)
+							csPlayer['index'+i].MS_Resize(option)
+						}
+					}
+					let loginDom = document.querySelector('#loginAll')
+						loginDom.onclick = function() {
+							for(let i=0;i<9;i++) {
+								csPlayer['index'+i].MS_StartClient(data.option, function(res){
+									if(res.err_code == 200) {
+										data.loginNumber++
+										if(data.loginNumber == 9) {
+											loginDom.setAttribute('disabled', true)
+											document.querySelector('#playAll').removeAttribute('disabled')
+											document.querySelector('#stopAll').removeAttribute('disabled')
+										}
+										console.log('登录成功--player'+i)
+									}
+								})
+							}
+						}
+						document.querySelector('#playAll').onclick = function() {
+							if(data.loginNumber != 9) return
+							for(let i=0;i<9;i++) {
+								let cameraId = data.deviceList[i] || data.deviceList[0]
+								csPlayer['index'+i].MS_SetCameraToWindow({cameraId: cameraId,index: 0})
+							}
+						}
+						document.querySelector('#stopAll').onclick = function() {
+							if(data.loginNumber != 9) return
+							for(let i=0;i<9;i++) {
+								let cameraId = data.deviceList[i] || data.deviceList[0]
+								csPlayer['index'+i].MS_StopCurrentVideo({index: 0})
+							}
+						}
+					},function(){console.log('尝试加载播放器失败,请确认是否正确安装播放器！')})
+					return csWindow
+				}
+				function initVideo() {
+					for(let i=0;i<9;i++) {
+						csPlayer['index'+i] = CsPlayer(i)
+					}
+				}
+				function setPosition(i)  {
+					let ele = document.querySelector('#csPlayer'+i);
+					let elmentAttr = ele.getBoundingClientRect();
+					let windowHeight = Math.round(window.outerHeight - window.innerHeight * devicePixelRatio); //浏览器高度
+					return {
+						width: Math.round(elmentAttr.width * devicePixelRatio),
+						height: Math.round(elmentAttr.height * devicePixelRatio),
+						left: Math.round(elmentAttr.left * devicePixelRatio),
+						top: Math.round(elmentAttr.top * devicePixelRatio + windowHeight),
+						//距离浏览器顶部高度
+						ratio: devicePixelRatio //浏览器缩放比例
+
+					  };
+				}
+				initVideo();
+				window.beforeunload = function(){
+					for(let i=0;i<9;i++) {
+						csPlayer['index'+i].MS_HideWnd();
+						csPlayer['index'+i].MS_DisConnectAllCamera();
+						csPlayer['index'+i].MS_StopClient();
+					}   
+				};
+				
+			}
+		</script>
+	</body>
+</html>

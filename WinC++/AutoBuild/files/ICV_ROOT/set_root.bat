@@ -1,0 +1,1 @@
+setx ICV_ROOT %1%

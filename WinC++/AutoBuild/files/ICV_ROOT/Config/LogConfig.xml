@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="gb2312"?>
+<LogConf>
+	<General CurrentLogLV = "DEBUG"  FileMaxKb="10000" FileMaxNo = "30" LogOnMonitor="1" />
+	<VideoService CurrentLogLV = "DEBUG"  FileMaxKb="100" FileMaxNo = "3" LogOnMonitor="1" />
+	<LinkService CurrentLogLV = "DEBUG"  FileMaxKb="100" FileMaxNo = "3" LogOnMonitor="1" />
+</LogConf>

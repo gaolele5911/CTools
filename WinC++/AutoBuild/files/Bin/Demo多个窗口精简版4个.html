@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo多个窗口精简版4个</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            margin-top: 120px;
+        }
+        .btn{
+            color: #fff;
+            background-color: #409eff;
+            border-color: #409eff;
+            display: inline-block;
+            cursor: pointer;
+            text-align: center;
+            box-sizing: border-box;
+            font-weight: 500;
+            padding: 12px 20px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: none;
+        }
+
+        .mrt15{
+            margin-right: 15px;
+            margin-top: 15px;
+        }
+      .videoBox{
+          width: 23%;
+          height: 600px;
+          float: left;
+          border: 1px solid #9ae2ff;
+          margin: 5px ;
+          padding: 5px;
+      }
+        .csvideo{
+            width: 100%;
+            height: 400px;
+            float: left;
+            background-color: #9ae2ff;
+        }
+        .buttonBox{
+            width: 100%;
+            height: 400px;
+            float: left;
+            overflow-y: auto;
+        }
+
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="videoBox">
+        <div id="csVideo1" class="csvideo mrt15 "></div>
+        <div class="buttonBox blue mrt15">
+            <button id="login_svr_1" class="btn mrt15">登录调度1</button>
+            <button id="logout_svr_1" class="btn mrt15">注销调度1</button>
+            <button id="play_real_1" class="btn mrt15">指定窗口播放1</button>
+            <button id="stop_real_1" class="btn mrt15">停止指定窗体播放1</button>
+        </div>
+    </div>
+    <div class="videoBox">
+        <div id="csVideo2" class="csvideo mrt15 "></div>
+        <div class="buttonBox orange mrt15">
+            <button id="login_svr_2" class="btn mrt15 ">登录调度2</button>
+            <button id="logout_svr_2" class="btn mrt15">注销调度2</button>
+            <button id="play_real_2" class="btn mrt15">指定窗口播放2</button>
+            <button id="stop_real_2" class="btn mrt15">停止指定窗体播放2</button>
+        </div>
+    </div>
+    <div class="videoBox">
+        <div id="csVideo3" class="csvideo mrt15 "></div>
+        <div class="buttonBox green mrt15">
+            <button id="login_svr_3" class="btn mrt15">登录调度3</button>
+            <button id="logout_svr_3" class="btn mrt15">注销调度3</button>
+            <button id="play_real_3" class="btn mrt15">指定窗口播放3</button>
+            <button id="stop_real_3" class="btn mrt15">停止指定窗体播放3</button>
+        </div>
+    </div>
+    <div class="videoBox">
+        <div id="csVideo4" class="csvideo mrt15 "></div>
+        <div class="buttonBox red mrt15">
+            <button id="login_svr_4" class="btn mrt15">登录调度4</button>
+            <button id="logout_svr_4" class="btn mrt15">注销调度4</button>
+            <button id="play_real_4" class="btn mrt15">指定窗口播放4</button>
+            <button id="stop_real_4" class="btn mrt15">停止指定窗体播放4</button>
+        </div>
+    </div>
+</div>
+
+<script src="./dist/eventBus.js"></script>
+<script src="./dist/webPlugin.js"></script>
+<script>
+    // 注意：当有多个窗口时，需要监听window的resize和scroll方法设置窗口位置
+    window.onload= function(){
+        let ip = '172.20.32.94:8089'
+        let isLoginOption = {
+            isLogin:false,
+            userName:'admin',
+            groupName:'11111111',
+            ip:ip
+        }
+        let windowCount = 4 //窗口数量
+        let count = 0
+        let delayTime = 0 //初始化间隔时间，单位毫秒
+        const video =  new CSVideo(isLoginOption)
+        let option1 = {
+            id:'csVideo1',
+            isMuiltWindow:true,
+            isSingleLayout:1 //是否是单窗口ocx 0//不是 1是
+        }
+        let option2 = {
+            id:'csVideo2',
+            isMuiltWindow:true,
+            isSingleLayout:1 //是否是单窗口ocx 0//不是 1是
+        }
+        let option3 = {
+            id:'csVideo3',
+            isMuiltWindow:true,
+            isSingleLayout:1 //是否是单窗口ocx 0//不是 1是
+        }
+        let option4 = {
+            id:'csVideo4',
+            isMuiltWindow:true,
+            isSingleLayout:1 //是否是单窗口ocx 0//不是 1是
+        }
+        // ==========初始化开始===============
+        // video.MS_WakeUp('MtiWatchService://')//exe
+
+        let csWindow1 = video.MS_Init()
+        let csWindow2 = video.MS_Init()
+        let csWindow3 = video.MS_Init()
+        let csWindow4 = video.MS_Init()
+        // ==========初始化结束===============
+
+
+        function initVideo(option,windowName,i){
+            // 1.创建窗口
+            windowName.MS_InitWindow(option,function (res) {
+                if(!isLoginOption.isLogin){
+                     //2.开始业务
+                   document.querySelector('#login_svr_'+ i).onclick= function(){
+                       windowName.MS_StartClient({userName:isLoginOption.userName,groupName:isLoginOption.groupName,ip:isLoginOption.ip},function (res) {
+                           if(res.err_code == 200) {
+                               console.log('窗口调度注册成功')
+                               //注销调度
+                               document.querySelector('#logout_svr_'+ i).onclick = function(){
+                                   windowName.MS_StopClient()
+                               }
+
+                               document.querySelector('#play_real_'+ i).onclick = function(){
+                                   windowName.MS_SetCameraToWindow({cameraId:'71000000001320000003',index:0},function (data) {
+                                       console.log(data,'收到的回复');
+                                   })
+                               }
+                               document.querySelector('#stop_real_'+ i).onclick = function(){
+                                   windowName.MS_StopCurrentVideo({index:0},function (data) {
+                                       console.log(data,'收到的回复');
+                                   })
+                               }
+                           }else{
+                               console.log('播放器’+ i +‘窗口初始化失败')
+                           }
+                       })
+                   }
+                }else{
+                    if(res.err_code == 200){
+                        console.log('窗口调度注册成功')
+                        //注销调度
+                        document.querySelector('#logout_svr_'+ i).onclick = function(){
+                            windowName.MS_StopClient()
+                        }
+
+                        document.querySelector('#play_real_'+ i).onclick = function(){
+                            windowName.MS_SetCameraToWindow({cameraId:'71000000001320000003',index:0},function (data) {
+                                console.log(data,'收到的回复');
+                            })
+                        }
+                        document.querySelector('#stop_real_'+ i).onclick = function(){
+                            windowName.MS_StopCurrentVideo({index:0},function (data) {
+                                console.log(data,'收到的回复');
+                            })
+                        }
+                    }else{
+                        console.log('播放器’+ i +‘窗口初始化失败')
+                    }
+                }
+                //3.主动触发的消息回调
+                windowName.MS_SetWindowControlCallback(function(event,data){
+                    console.log(data,'第'+i +'个主动触发的回复');
+                    if(data.cmd =='crash'){
+                        //崩溃，重新初始化
+                        initVideo(option,windowName,i)
+                    }
+                });
+
+            },function () {
+                //创建失败
+                alert('尝试加载播放器'+ option.id +'失败,请确认是否正确安装播放器')
+            })
+        }
+
+        function interval(delay, callback) {
+            return new Promise(resolve => {
+                let id = setInterval(() => {
+                    callback(id, resolve);
+                }, delay);
+            });
+        }
+        interval(delayTime, (id, resolve) => {
+            count ++
+            if (count > windowCount) {
+                clearInterval(id);
+                resolve();
+            }else {
+                start(count)
+            }
+        })
+
+        function start(i){
+            let option = getOptionName(i)
+            let csWindow = getWindowName(i)
+            initVideo(option,csWindow,i)
+        }
+        function getWindowName(i){
+            switch (i) {
+                case 1:
+                    return csWindow1
+                case 2:
+                    return csWindow2
+                case 3:
+                    return csWindow3
+                case 4:
+                    return csWindow4
+                case 5:
+                    return csWindow5
+                case 6:
+                    return csWindow6
+                case 7:
+                    return csWindow7
+                case 8:
+                    return csWindow8
+                case 9:
+                    return csWindow9
+                case 10:
+                    return csWindow10
+                case 11:
+                    return csWindow11
+                case 12:
+                    return csWindow12
+            }
+        }
+        function getOptionName(i){
+            switch (i) {
+                case 1:
+                    return option1
+                case 2:
+                    return option2
+                case 3:
+                    return option3
+                case 4:
+                    return option4
+                case 5:
+                    return option5
+                case 6:
+                    return option6
+                case 7:
+                    return option7
+                case 8:
+                    return option8
+                case 9:
+                    return option9
+                case 10:
+                    return option10
+                case 11:
+                    return option11
+                case 12:
+                    return option12
+            }
+        }
+        window.onresize = function(){
+            let csWindow = null
+            let option = null
+            for (let i = 1;i<=windowCount;i++){
+                csWindow = getWindowName(i)
+                option = getOptionName(i)
+                let pos= getElementPos(option,devicePixelRatio)
+                csWindow.MS_Resize(pos)
+            }
+        }
+        window.onscroll = function(){
+            let csWindow = null
+            let option = null
+            for (let i = 1;i<=windowCount;i++){
+                csWindow = getWindowName(i)
+                option = getOptionName(i)
+                let pos= getElementPos(option,devicePixelRatio)
+                csWindow.MS_Resize(pos)
+            }
+        }
+
+        window.onunload= function () {
+            let csWindow = null
+            for (let i = 1;i<=windowCount;i++){
+                csWindow = getWindowName(i)
+                csWindow.MS_DisConnectAllCamera()
+                csWindow.MS_DestroyWnd()
+                csWindow.MS_Disconnect()
+            }
+        }
+
+        function getElementPos(data,devicePixelRatio){
+            let ele =document.querySelector('#'+ data.id)
+            let elmentAttr = ele.getBoundingClientRect();
+            let windowHeight = Math.round(window.outerHeight-(window.innerHeight * devicePixelRatio)) //浏览器高度
+            let option = {
+                width:Math.round(elmentAttr.width* devicePixelRatio) ,
+                height:Math.round(elmentAttr.height* devicePixelRatio)  ,
+                left:Math.round(elmentAttr.left* devicePixelRatio ) ,
+                top:Math.round((elmentAttr.top * devicePixelRatio) + windowHeight), //距离浏览器顶部高度
+                ratio:devicePixelRatio, //浏览器缩放比例
+            }
+            return option
+        }
+    }
+</script>
+</body>
+</html>
