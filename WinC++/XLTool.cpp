@@ -208,23 +208,6 @@ const wstring XLTool::Char2TChar(const char* szSrc)
 	return str;
 }
 
-void XLTool::GraphicsDrawImage(string path, int idc_type, HWND hwnd)
-{
-	USES_CONVERSION;
-	Graphics* g = Graphics::FromHWND(hwnd);
-	Image* img = Image::FromFile(A2W(path.c_str()));
-	if (img)
-	{
-		CRect rc;
-		CWnd::FromHandle(hwnd)->GetDlgItem(idc_type)->GetWindowRect(&rc);
-		CWnd::FromHandle(hwnd)->ScreenToClient(&rc);
-		CWnd::FromHandle(hwnd)->GetDlgItem(idc_type)->ShowWindow(SW_HIDE);
-		Status st = g->DrawImage(img, rc.left, rc.top, rc.Width(), rc.Height());
-		delete img;
-		img = nullptr;
-	}
-}
-
 const CString XLTool::Time2String(const time_t tTime)
 {
 	CTime time(tTime);
